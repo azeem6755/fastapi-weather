@@ -1,0 +1,59 @@
+<html>
+    <head>
+        <title>Weather API Test</title>
+    </head>
+
+    <style>
+
+    </style>
+    <body>
+        <h1 class="heading">Weather API</h1>
+
+        <label for="input-location">Enter Location</label>
+        <input type="text" id="input-location" name="input-location"/>
+        <label for="start-date">Enter Start Date</label>
+        <input type="text" id="start-date" name="start-date"/>
+        <label for="end-date">Enter End Date</label>
+        <input type="text" id="end-date" name="end-date"/>
+
+        <button onclick="getWeaterData()">Submit!</button>
+
+        <div class="Output-Field">
+            <p>Output is: <strong id="output"></strong></p>
+        </div>
+
+    </body>
+
+    <script>
+        function getWeaterData() {
+            inputLocation = document.getElementById('input-location').value;
+            startDate = document.getElementById('start-date').value;
+            endDate = document.getElementById('end-date').value;
+
+            const urlParams = new URLSearchParams()
+            var url = new URL('http://localhost:8000/get-weather-data')
+            urlParams.set('location', inputLocation);
+            urlParams.set('start_date', startDate);
+            urlParams.set('end_date', endDate);
+            const queryString = urlParams.toString();
+            url = url + '?' + queryString
+
+            fetch(url).then(response => {
+
+                if(!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('output').textContent = JSON.stringify(data, null, 2)
+            })
+            .catch(err => {
+                console.error("There has been an error", err)
+            })
+
+        }
+    </script>
+
+</html>

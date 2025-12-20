@@ -1,0 +1,83 @@
+<html>
+    <head>
+        <title>Weather API Test</title>
+    </head>
+
+    <style>
+
+    </style>
+    <body>
+        <h1 class="heading">Weather API</h1>
+
+        <label for="input-location">Enter Location</label>
+        <input type="text" id="input-location" name="input-location"/>
+        <label for="start-date">Enter Start Date</label>
+        <input type="text" id="start-date" name="start-date"/>
+        <label for="end-date">Enter End Date</label>
+        <input type="text" id="end-date" name="end-date"/>
+
+        <button onclick="getWeaterData()">Submit!</button>
+
+        <div class="output-area">
+            <div class="output-field">
+                <span>Date - <span id="output-date"></span></span>
+            </div>
+            <div class="output-field">
+                <span>Temperature - <span id="output-temperature"></span></span>
+            </div>
+            <div class="output-field">
+                <span>Max Temperature - <span id="output-max-temperature"></span></span>
+            </div>
+            <div class="output-field">
+                <span>Min Temperature - <span id="output-min-temperature"></span></span>
+            </div>
+            <div class="output-field">
+                <span>Feels Like - <span id="output-feelslike-temperature"></span></span>
+            </div>
+        </div>
+
+    </body>
+
+    <script>
+        function getWeaterData() {
+            inputLocation = document.getElementById('input-location').value;
+            startDate = document.getElementById('start-date').value;
+            endDate = document.getElementById('end-date').value;
+
+            const urlParams = new URLSearchParams()
+            var url = new URL('http://localhost:8000/get-weather-data')
+            urlParams.set('location', inputLocation);
+            urlParams.set('start_date', startDate);
+            urlParams.set('end_date', endDate);
+            const queryString = urlParams.toString();
+            url = url + '?' + queryString
+
+            fetch(url).then(response => {
+
+                if(!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                data = data.data;
+                var day = data.days[0].datetime;
+                var temp = data.days[0].temp;
+                var maxTemp = data.days[0].tempmax;
+                var minTemp = data.days[0].tempmin;
+                var feelsLike = data.days[0].feelslike;
+
+                document.getElementById('output-date').textContent = day;
+                document.getElementById('output-temperature').textContent = temp;
+                document.getElementById('output-max-temperature').textContent = maxTemp;
+                document.getElementById('output-min-temperature').textContent = minTemp;
+                document.getElementById('output-feelslike-temperature').textContent = feelsLike;
+            })
+            .catch(err => {
+                console.error("There has been an error", err)
+            })
+
+        }
+    </script>
+
+</html>
