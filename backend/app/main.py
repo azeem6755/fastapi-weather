@@ -1,8 +1,9 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, HTMLResponse
 from .config import get_settings
+from fastapi.templating import Jinja2Templates
 from . import routes
 
 
@@ -20,12 +21,7 @@ app.add_middleware(
 
 
 # Serve static files
-app.mount("/static", StaticFiles(directory="app/static"), name="static")
-
-# Serve index.html
-@app.get("/")
-def read_index():
-    return FileResponse("app/static/index.html")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get('/info')
 def get_info():

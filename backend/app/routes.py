@@ -1,10 +1,19 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
+from fastapi.responses import HTMLResponse
 from .weather_api import get_weather_data
 from .cache import get_data_from_cache, store_data_in_cache
 from typing import Optional
+from .config import templates
 
 
 router = APIRouter()
+
+
+@router.get('/', response_class=HTMLResponse)
+async def load_page(request: Request, context_dict: dict = dict()):
+    return templates.TemplateResponse(
+        request=request, name="index.html", context=context_dict
+    )
 
 
 @router.get('/get-weather-data')
