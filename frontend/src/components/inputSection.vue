@@ -1,14 +1,26 @@
 <template>
     <div>
         <div class="input-area">
-            <label for="input-location">Location</label>
-            <input id="input-location" type="text" v-model="inputLocation" placeholder="Enter Location" />
-            <label for="start-date">Start Date</label>
-            <input id="start-date" type="text" v-model="startDate" placeholder="Enter Start Date" />
-            <label for="end-date">End Date</label>
-            <input id="end-date" type="text" v-model="endDate" placeholder="Enter End Date" />
+            <div class="input-group mb-3 input-item">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Location</span>
+                </div>
+                <input id="input-location" class="form-control" type="text" v-model="inputLocation"/>
+            </div>
+            <div class="input-group mb-3 input-item">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Start Date</span>
+                </div>
+                <input id="start-location" class="form-control" type="date" v-model="startDate" />
+            </div>
+            <div class="input-group mb-3 input-item">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">End Date</span>
+                </div> 
+                <input id="end-date" class="form-control" type="date" v-model="endDate" />
+            </div>
 
-            <button @click="submitInput">Submit</button>
+            <button class="btn btn-outline-primary btn-lg submit-btn" @click="submitInput" type="submit">Submit</button>
         </div>
     </div>
 </template>
@@ -37,5 +49,21 @@
 </script>
 
 <style scoped>
+    .input-area {
+        border: 2px solid yellow;
+        padding: 1em;
+        display: flex;
+        margin: 1em 0 1em 0;
+        justify-content: space-evenly;
+    }
+
+    .input-item {
+        flex: 1;
+        margin: 0 1%
+    }
+
+    .submit-btn {
+        padding: 0 2em;
+    }
 
 </style>
